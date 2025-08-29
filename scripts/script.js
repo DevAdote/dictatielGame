@@ -1,6 +1,7 @@
 function afficherResultat (score, nbMotsProposes){
-        console.log('Vous avez reussi '+ score + ' sur ' +nbMotsProposes)
+        // console.log('Vous avez reussi '+ score + ' sur ' +nbMotsProposes)
 
+        scoreAffiche.innerHTML = `${score} / ${nbMotsProposes} `;
 }
 
 
