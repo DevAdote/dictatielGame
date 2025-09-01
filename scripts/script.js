@@ -72,5 +72,27 @@ function lancerJeu() {
         })
     }
 
+
+
+
+    let form = document.querySelector("form")
+
+    form.addEventListener("submit", (event)=>{
+        event.preventDefault()
+
+        let nom = document.getElementById("nom")
+        //
+
+        let email = document.getElementById("email")
+       
+        let scoreEmail = ` ${score} / ${i}`
+        afficherEmail(nom, email, score)
+
+        console.log(nom.value)
+        console.log(email.value)
+
+    })
+
+
     afficherResultat(score, i)
 }
