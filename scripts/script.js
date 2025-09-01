@@ -32,30 +32,50 @@ function lancerBoucleDeJeu (listePropositions){
 }
 
 
+function afficherProposition (motAfficher){
+    
+    let zoneProposition = document.querySelector(".zoneProposition")
+
+    zoneProposition.innerText = motAfficher
+}
+
 
 function lancerJeu (){
 
-   
+   let score = 0
+   let nbMotsProposes = 0
+   let i = 0
+
+    let inputEcriture = document.getElementById("inputEcriture")
+
+    afficherProposition(listeMots[i]) 
 
     btnValiderMot.addEventListener("click", ()=>{
 
-        let inputEcriture = document.getElementById("inputEcriture")
-       
         console.log(inputEcriture.value)
-        
+
+          if (inputEcriture.value===listeMots[i])
+            {
+                score++
+            }
+
+        i++
+
+        afficherResultat(score, i)
+
+
+        inputEcriture.value = ''
+
+        if (listeMots[i] === undefined)
+        {
+            afficherProposition("Le jeu est termine")
+            btnValiderMot.disabled = true
+        }else{
+            afficherProposition(listeMots[i]) 
+        }
     })
 
-//    let choix = choisirPhrasesOuMots()
-   let score = 0
-   let nbMotsProposes = 0
-//    if (choix === 'mots'){
-//     score = lancerBoucleDeJeu(listeMots)
-//     nbMotsProposes = listeMots.length
-//    }else{
-//      score = lancerBoucleDeJeu(listePhrases)
-//     nbMotsProposes = listePhrases.length
-//    }
-    afficherResultat(score, nbMotsProposes)
+    afficherResultat(score, i)
 
 
 }
