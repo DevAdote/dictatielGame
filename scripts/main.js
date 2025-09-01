@@ -19,4 +19,3 @@ let optionChoix = document.querySelectorAll(".optionSource input")
 
 lancerJeu()
 
-
