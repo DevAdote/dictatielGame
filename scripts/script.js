@@ -1,111 +1,76 @@
-function afficherResultat (score, nbMotsProposes){
-        // console.log('Vous avez reussi '+ score + ' sur ' +nbMotsProposes)
-
-        scoreAffiche.innerHTML = `${score} / ${nbMotsProposes} `;
-}
-
-
-function choisirPhrasesOuMots(){
-    // let choix = prompt('Choisir entre mots et phrases')
-    // while(choix!=='mots' && choix!=='phrases')
-    // {
-    //       choix = prompt('Vous devez choisir entre mots ou phrases')
-    // }
-    
-    // return choix
-   
+ 
+function afficherResultat(score, nbMotsProposes) {
+    // Récupération de la zone dans laquelle on va écrire le score
+    let spanScore = document.querySelector(".zoneScore span")
+    // Ecriture du texte
+    let affichageScore = `${score} / ${nbMotsProposes}` 
+    // On place le texte à l'intérieur du span. 
+    spanScore.innerText = affichageScore
 }
 
 
 
-function lancerBoucleDeJeu (listePropositions){
-    
-        let score = 0
-        // for(let i = 0; i<listePropositions.length; i++)
-        //     {
-        //         let motUtilisateur = prompt('Saisir le mot suivant : ' +listePropositions[i])
-                
-        //         if(motUtilisateur === listePropositions[i]){
-        //             score++
-        //         }
-        //     }
-  
-        return score;
-}
 
-
-function afficherProposition (motAfficher){
-    
+function afficherProposition(proposition) {
     let zoneProposition = document.querySelector(".zoneProposition")
-
-    zoneProposition.innerText = motAfficher
+    zoneProposition.innerText = proposition
 }
 
 
-function lancerJeu (){
 
-   let score = 0
-    listePropositions = listeMots
-   let i = 0
 
+function afficherEmail(nom, email, score) {
+    let mailto = `mailto:${email}?subject=Partage du score Azertype&body=Salut, je suis ${nom} et je viens de réaliser le score ${score} sur le site d'Azertype !`
+    location.href = mailto
+}
+
+
+
+
+function lancerJeu() {
+    // Initialisations
+    initAddEventListenerPopup()
+    let score = 0
+    let i = 0
+    let listeProposition = listeMots
+
+    let btnValiderMot = document.getElementById("btnValiderMot")
     let inputEcriture = document.getElementById("inputEcriture")
 
-    afficherProposition(listePropositions[i]) 
+    afficherProposition(listeProposition[i])
 
-    btnValiderMot.addEventListener("click", ()=>{
-
-        console.log(inputEcriture.value)
-
-          if (inputEcriture.value===listePropositions[i])
-            {
-                score++
-            }
-
+    // Gestion de l'événement click sur le bouton "valider"
+    btnValiderMot.addEventListener("click", () => {
+        if (inputEcriture.value === listeProposition[i]) {
+            score++
+        }
         i++
-
         afficherResultat(score, i)
-
-
         inputEcriture.value = ''
-
-        if (listePropositions[i] === undefined)
-        {
-            afficherProposition("Le jeu est termine")
+        if (listeProposition[i] === undefined) {
+            afficherProposition("Le jeu est fini")
             btnValiderMot.disabled = true
-        }else{
-            afficherProposition(listePropositions[i]) 
+        } else {
+            afficherProposition(listeProposition[i])
         }
     })
 
+    // Gestion de l'événement change sur les boutons radios. 
+    let listeBtnRadio = document.querySelectorAll(".optionSource input")
+    for (let index = 0; index < listeBtnRadio.length; index++) {
+        listeBtnRadio[index].addEventListener("change", (event) => {
+            // Si c'est le premier élément qui a été modifié, alors nous voulons
+            // jouer avec la listeMots. 
+            if (event.target.value === "1") {
+                listeProposition = listeMots
+            } else {
+                // Sinon nous voulons jouer avec la liste des phrases
+                listeProposition = listePhrases
+            }
+            // Et on modifie l'affichage en direct. 
+            afficherProposition(listeProposition[i])
+        })
+    }
 
-
-    
-    let option = document.querySelectorAll('.optionSource input')
-
-        for (let index = 0; index<option.length;index++){
-
-            // event represente l'evenement qui vient de se produire ce qui permet de determiner clairement sur quel boutton radio on a clique
-            // Et cette information est stocke dans le event.target
-
-            option[index].addEventListener("change", (event)=>{
-
-                if(event.target.value === "1"){
-                    listePropositions = listeMots
-                }else{
-                    listePropositions = listePhrases
-                }
-               afficherProposition(listePropositions[i])
-            })
-
-            
-
-
-
-        }
- 
-
-
-        afficherResultat(score, i)
-
-    
+    afficherResultat(score, i)
 }
