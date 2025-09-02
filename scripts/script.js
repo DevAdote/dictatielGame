@@ -73,7 +73,7 @@ function lancerJeu() {
     }
 
 
-
+    // Envoie de mail et empeche le rechargement de la page par defaut avec le event.preventDefault
 
     let form = document.querySelector("form")
 
@@ -86,7 +86,7 @@ function lancerJeu() {
         let email = document.getElementById("email")
        
         let scoreEmail = ` ${score} / ${i}`
-        afficherEmail(nom, email, score)
+        afficherEmail(nom, email, scoreEmail)
 
         console.log(nom.value)
         console.log(email.value)
