@@ -30,19 +30,63 @@ function afficherEmail(nom, email, score) {
 
 function validerNom (nom){
 
-    if(nom.length>=2){
-        return true
+    if(nom.length<2){
+        throw new Error("Le nom est trop court")
     }
-        return false
 }
 
 function validerEmail (email) {
-    let emailRegExp = new RegExp ("[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9._-]")
-    if (emailRegExp.test(email)){
-        return true
+    let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+")
+    if (!emailRegExp.test(email)) {
+        throw new Error("L'email n'est pas valide.")
     }
-    return false
 }
+
+
+
+// ********** Fonction pour afficher le span d'erreur en dessous du formulaire d'envoie
+
+
+function afficherMessageErreur(message) {
+    
+    let spanErreurMessage = document.getElementById("erreurMessage")
+
+    if (!spanErreurMessage) {
+        let popup = document.querySelector(".popup")
+        spanErreurMessage = document.createElement("span")
+        spanErreurMessage.id = "erreurMessage"
+        
+        popup.append(spanErreurMessage)
+    }
+    
+    spanErreurMessage.innerText = message
+}
+
+
+
+// ********** Fonction pour gerer le formulaire d'envoie
+
+function gererFormulaire(scoreEmail){
+      try {
+        let baliseNom = document.getElementById("nom")
+        let nom = baliseNom.value
+        validerNom(nom)
+    
+        let baliseEmail = document.getElementById("email")
+        let email = baliseEmail.value
+        validerEmail(email)
+        afficherMessageErreur("")
+        afficherEmail(nom, email, scoreEmail)
+
+    } catch(erreur) {
+        afficherMessageErreur(erreur.message)
+    }
+}
+
+
+
+// ********** Fonction principale
+
 
 function lancerJeu() {
     // Initialisations
@@ -97,19 +141,9 @@ function lancerJeu() {
     form.addEventListener("submit", (event)=>{
         event.preventDefault()
 
-        let nom = document.getElementById("nom")
+        let scoreEmail = ` ${score} / ${i}`
 
-        let email = document.getElementById("email")
-       
-        // Appel des functions et leurs conditionnement pour la Verification des champs
-        
-        if(validerNom(nom)&&validerEmail(mail)){
-                let scoreEmail = ` ${score} / ${i}`
-                afficherEmail(nom, email, scoreEmail)
-        }
-
-
-
+        gererFormulaire(scoreEmail)
 
     })
 
