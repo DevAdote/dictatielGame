@@ -25,7 +25,24 @@ function afficherEmail(nom, email, score) {
 }
 
 
+// Fonction pour la mise en place des regles de validation
 
+
+function validerNom (nom){
+
+    if(nom.length>=2){
+        return true
+    }
+        return false
+}
+
+function validerEmail (email) {
+    let emailRegExp = new RegExp ("[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9._-]")
+    if (emailRegExp.test(email)){
+        return true
+    }
+    return false
+}
 
 function lancerJeu() {
     // Initialisations
@@ -81,15 +98,18 @@ function lancerJeu() {
         event.preventDefault()
 
         let nom = document.getElementById("nom")
-        //
 
         let email = document.getElementById("email")
        
-        let scoreEmail = ` ${score} / ${i}`
-        afficherEmail(nom, email, scoreEmail)
+        // Appel des functions et leurs conditionnement pour la Verification des champs
+        
+        if(validerNom(nom)&&validerEmail(mail)){
+                let scoreEmail = ` ${score} / ${i}`
+                afficherEmail(nom, email, scoreEmail)
+        }
 
-        console.log(nom.value)
-        console.log(email.value)
+
+
 
     })
 
